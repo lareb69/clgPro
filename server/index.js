@@ -1,11 +1,14 @@
 require('dotenv').config();
 
+const bodyParser = require('body-parser');
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 
 const app = express();
 
-app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 const databasePassword = process.env.MONGO_PASSWORD;
 
@@ -36,7 +39,7 @@ app.post('/admin', async (req, res) => {
     console.log(`body===>\n`);
     console.log(req.body);
 
-    const { question: questionReceived } = JSON.stringify(req.body);
+    const { question: questionReceived } = req.body;
 
     console.log(`data===> ${questionReceived}`);
 
