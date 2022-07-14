@@ -2,8 +2,12 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
 const databasePassword = process.env.MONGO_PASSWORD;
 
 mongoose.connect(
@@ -25,11 +29,40 @@ const anwerSchema = new mongoose.Schema({
 
 const Question = new mongoose.model('Question', questionSchema);
 
-app.post('/admin', (req, res) => {
-    console.log(req.body);
-    res.status(200).send({ message: 'ok' });
+app.get('/', (req, res) => {
+    res.send('Hello WOrld');
+});
+
+app.post('/admin', async (req, res) => {
+    const { question: questionReceived } = req.body;
+    if (!questionReceived) {
+        res.status(406).send({
+            message: 'use key "question" exactly as written here!',
+        });
+        return;
+    }
+
+    const foundQuestion = await Question.findOne({
+        question: questionReceived,
+    });
+    if (foundQuestion) {
+        res.status(406).send({ message: 'Question already exists!' });
+        return;
+    }
+
+    const newQuestion = await new Question({ question: questionReceived });
+    newQuestion.save((error) => {
+        if (!error) {
+            res.status(200).send({
+                message: 'sucessfully added to database',
+            });
+        } else {
+            res.status(503).send({ message: error });
+        }
+    });
+    return;
 });
 
 app.listen(process.env.PORT || 3100, (req, res) => {
-    console.log('https://localhost:3100');
+    console.log('http://localhost:3100');
 });
