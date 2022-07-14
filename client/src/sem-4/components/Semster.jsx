@@ -10,7 +10,7 @@ const Semster = () => {
             <h1
                 className="py-4"
                 onClick={() => {
-                    navigate('/economy');
+                    navigate('/sem-4/economy');
                 }}
             >
                 Economy
@@ -18,7 +18,7 @@ const Semster = () => {
             <h1
                 className="py-4"
                 onClick={() => {
-                    navigate('/maths');
+                    navigate('/sem-4/maths');
                 }}
             >
                 Maths
@@ -26,7 +26,7 @@ const Semster = () => {
             <h1
                 className="py-4"
                 onClick={() => {
-                    navigate('/english');
+                    navigate('/sem-4/english');
                 }}
             >
                 English
