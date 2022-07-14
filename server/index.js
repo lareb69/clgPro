@@ -2,11 +2,10 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 const databasePassword = process.env.MONGO_PASSWORD;
 
@@ -34,7 +33,13 @@ app.get('/', (req, res) => {
 });
 
 app.post('/admin', async (req, res) => {
-    const { question: questionReceived } = req.body;
+    console.log(`body===>\n`);
+    console.log(req.body);
+
+    const { question: questionReceived } = JSON.stringify(req.body);
+
+    console.log(`data===> ${questionReceived}`);
+
     if (!questionReceived) {
         res.status(406).send({
             message: 'use key "question" exactly as written here!',
