@@ -31,10 +31,7 @@ const DropDown = () => {
             >
                 Subjects
             </button>
-            <div
-                id="menu"
-                className="hidden flex flex-col bg-white drop-shadow-md"
-            >
+            <div id="menu" className=" flex flex-col bg-white drop-shadow-md">
                 <a
                     className="px-5 py-3 hover:bg-amber-300 border-b border-gray-200"
                     href="/ind-economy"
